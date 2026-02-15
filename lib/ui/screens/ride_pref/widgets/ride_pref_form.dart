@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
- 
+
+
 import '../../../../model/ride/locations.dart';
 import '../../../../model/ride_pref/ride_pref.dart';
- 
+
 ///
 /// A Ride Preference From is a view to select:
 ///   - A depcarture location
@@ -28,8 +29,6 @@ class _RidePrefFormState extends State<RidePrefForm> {
   Location? arrival;
   late int requestedSeats;
 
-
-
   // ----------------------------------
   // Initialize the Form attributes
   // ----------------------------------
@@ -37,30 +36,28 @@ class _RidePrefFormState extends State<RidePrefForm> {
   @override
   void initState() {
     super.initState();
-    
-    // TODO 
+
+    // TODO
   }
 
   // ----------------------------------
   // Handle events
   // ----------------------------------
- 
 
   // ----------------------------------
   // Compute the widgets rendering
   // ----------------------------------
-  
 
   // ----------------------------------
   // Build the widgets
   // ----------------------------------
-  
+
   @override
   Widget build(BuildContext context) {
     return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [ 
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [ 
           ]);
   }
 }
