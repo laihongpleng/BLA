@@ -65,8 +65,20 @@ class _RidePrefFormState extends State<RidePrefForm> {
     }
   }
 
-  void onArrivalPressed() {
+  void onArrivalPressed() async {
     // TODO-1 - Complete
+        Location? selected = await Navigator.push<Location>(
+      context,
+      MaterialPageRoute(
+        builder: (_) => LocationPicker(selectedLocation: arrival),
+      ),
+    );
+
+    if (selected != null) {
+      setState(() {
+        arrival = selected;
+      });
+    }
   }
 
   void onDatePressed() {
@@ -118,7 +130,7 @@ class _RidePrefFormState extends State<RidePrefForm> {
         RidePrefInput(
           title: arrival?.name ?? "Select arrival",
           icon: Icons.location_on,
-          onPressed: (){},
+          onPressed: onArrivalPressed,
         ),
         const BlaDivider(),
 
