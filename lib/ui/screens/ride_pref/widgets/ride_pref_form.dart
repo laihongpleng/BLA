@@ -1,7 +1,8 @@
+import 'package:blaapp/services/rides_service.dart';
+import 'package:blaapp/utils/date_time_util.dart';
 import 'package:flutter/material.dart';
 import 'package:blaapp/ui/widgets/actions/bla_button.dart';
 import 'package:blaapp/ui/widgets/display/bla_divider.dart';
-import 'package:intl/intl.dart';
 import '../../../../model/ride/locations.dart';
 import '../../../../model/ride_pref/ride_pref.dart';
 import 'ride_pref_input.dart';
@@ -65,8 +66,26 @@ class _RidePrefFormState extends State<RidePrefForm> {
   }
 
   void onSubmit() {
+    bool canSearch = departure != null && arrival != null;
 
+    if (!canSearch) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Please select both departure and arrival"),
+        ),
+      );
+      return;
+    }
+
+    List filteredRides = RidesService.filterBy(
+      departure: departure,
+      seatRequested: requestedSeats,
+    );
+
+    print("Filtered Rides: ${filteredRides.length}");
   }
+
+  String get dateLabel => DateTimeUtils.formatDateTime(departureDate);
   // ----------------------------------
   // Build the widgets
   // ----------------------------------
@@ -79,7 +98,7 @@ class _RidePrefFormState extends State<RidePrefForm> {
           title: departure?.name ?? "Select departure",
           icon: Icons.location_on,
           rightIcon: Icons.swap_vert,
-          onPressed: (){},
+          onPressed:(){},
         ),
         const BlaDivider(),
 
@@ -91,8 +110,8 @@ class _RidePrefFormState extends State<RidePrefForm> {
         const BlaDivider(),
 
         RidePrefInput(
-          title: DateFormat('yyyy-MM-dd').format(departureDate),
-
+          // title: DateFormat('yyyy-MM-dd').format(departureDate),
+          title: dateLabel,
           icon: Icons.calendar_month,
           onPressed: (){},
         ),
@@ -110,7 +129,7 @@ class _RidePrefFormState extends State<RidePrefForm> {
           label: "search",
           primary: true,
           leadingIcon: Icons.search,
-          onTap: () {},
+          onTap: onSubmit,
         ),
       ],
     );
