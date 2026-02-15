@@ -1,5 +1,6 @@
 import 'package:blaapp/services/rides_service.dart';
 import 'package:blaapp/ui/widgets/inputs/bla_locatin_picker.dart';
+import 'package:blaapp/ui/widgets/inputs/seat_spinner.dart';
 import 'package:blaapp/utils/date_time_util.dart';
 import 'package:flutter/material.dart';
 import 'package:blaapp/ui/widgets/actions/bla_button.dart';
@@ -86,9 +87,21 @@ class _RidePrefFormState extends State<RidePrefForm> {
 
   }
 
-  void onSeatsPressed() {
+void onSeatsPressed() async {
+    int? selectedSeats = await Navigator.push<int>(
+      context,
+      MaterialPageRoute(
+        builder: (_) => SeatsPickerPage(initialSeats: requestedSeats),
+      ),
+    );
 
+    if (selectedSeats != null) {
+      setState(() {
+        requestedSeats = selectedSeats; 
+      });
+    }
   }
+
 
   void onSubmit() {
     bool canSearch = departure != null && arrival != null;
@@ -145,7 +158,7 @@ class _RidePrefFormState extends State<RidePrefForm> {
         RidePrefInput(
           title: "Seats: $requestedSeats",
           icon: Icons.person,
-          onPressed: (){},
+          onPressed: onSeatsPressed,
         ),
         const SizedBox(height: 20),
         const BlaDivider(),
