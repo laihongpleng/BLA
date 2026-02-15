@@ -1,4 +1,5 @@
 import 'package:blaapp/services/rides_service.dart';
+import 'package:blaapp/ui/widgets/inputs/bla_locatin_picker.dart';
 import 'package:blaapp/utils/date_time_util.dart';
 import 'package:flutter/material.dart';
 import 'package:blaapp/ui/widgets/actions/bla_button.dart';
@@ -48,8 +49,20 @@ class _RidePrefFormState extends State<RidePrefForm> {
   // Handle events
   // ----------------------------------
 
-  void onDeparturePressed() {
+  void onDeparturePressed() async{
     // 1- Select a location
+      Location? selected = await Navigator.push<Location>(
+      context,
+      MaterialPageRoute(
+        builder: (_) => LocationPicker(selectedLocation: departure),
+      ),
+    );
+
+    if (selected != null) {
+      setState(() {
+        departure = selected;
+      });
+    }
   }
 
   void onArrivalPressed() {
@@ -98,7 +111,7 @@ class _RidePrefFormState extends State<RidePrefForm> {
           title: departure?.name ?? "Select departure",
           icon: Icons.location_on,
           rightIcon: Icons.swap_vert,
-          onPressed:(){},
+          onPressed: onDeparturePressed,
         ),
         const BlaDivider(),
 
